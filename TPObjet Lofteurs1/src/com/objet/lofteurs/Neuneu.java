@@ -9,7 +9,8 @@ package com.objet.lofteurs;
 
 public abstract class Neuneu implements ObjetDessinable{
 
-	public Case c;
+	public int x;
+	public int y;
 	public int energie;
 	public String type;
 	public Loft l;
@@ -36,17 +37,17 @@ public abstract class Neuneu implements ObjetDessinable{
 	 */
 	public void sedeplacer(int directionX, int directionY){
 		
-		this.c.setNbneuneu(-1);
+
 		
-		this.c.setAbscisse(directionX);
-		this.c.setOrdonnee(directionY);
+		this.x+=directionX;
+		this.y+=directionY;
 	
 		this.setEnergie(this.getEnergie() - getL().energiepas);
 	
 		if (this.getEnergie()<this.getL().energiemin){ this.mourir();}
 	
 		if (getVientDeSeReproduire()>0) setVientDeSeReproduire(getVientDeSeReproduire() - 1);
-		this.c.setNbneuneu(+1);
+		
 		
 	}
 	
@@ -88,7 +89,7 @@ public abstract class Neuneu implements ObjetDessinable{
 		
 		if (this.getEnergie()<this.getL().energiemin){ this.mourir();}
 		if (n.getEnergie()<this.getL().energiemin){n.mourir();}
-		this.c.setNbneuneu(+1);
+		
 	}
 
 
@@ -110,8 +111,8 @@ public abstract class Neuneu implements ObjetDessinable{
 	public int [] chercherdirection (Case a){
 		
 		int [] vecteur = new int [2];
-		int distancex = a.getAbscisse()-getC().getAbscisse();
-		int distancey = a.getOrdonnee() - getC().getOrdonnee();
+		int distancex = a.getAbscisse()-this.x;
+		int distancey = a.getOrdonnee() - this.y;
 		
 		vecteur[0]= distancex;
 		vecteur[1]= distancey;
@@ -175,19 +176,6 @@ public abstract class Neuneu implements ObjetDessinable{
 	public void setVientDeSeReproduire(int vientDeSeReproduire) {
 		this.vientDeSeReproduire = vientDeSeReproduire;
 	}
-
-	/**
-	 * @return
-	 */
-	public Case getC() {
-		return c;
-	}
-
-	/**
-	 * @param c
-	 */
-	public void setC(Case c) {
-		this.c = c;
-	}
+	
 	
 }

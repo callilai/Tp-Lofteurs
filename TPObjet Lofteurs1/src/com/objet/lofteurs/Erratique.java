@@ -1,5 +1,4 @@
 package com.objet.lofteurs;
-
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -18,10 +17,11 @@ public class Erratique extends Neuneu {
 	 */
 	
 
-	public Erratique(Case box, int energie, Loft lf){	
+	public Erratique(int abs, int ord, int energie, Loft lf){	
 	
 		this.energie=energie;
-		this.c= box;
+		this.x=abs;
+		this.y=ord;
 		this.l=lf;
 		this.type=new String("Erratique");
 		this.vientDeSeReproduire=0;
@@ -42,7 +42,7 @@ public class Erratique extends Neuneu {
 		g.setColor(Color.red);
 		//g.drawOval(this.getC().getAbscisse()*(600/this.getL().nbCasesLargeur), this.getC().getOrdonnee()*(600/this.getL().nbCasesHauteur), 10, 10);
 		//g.drawString("X", 25, 25);
-		g.fillOval(this.getC().getAbscisse()*(600/this.getL().nbCasesLargeur), this.getC().getOrdonnee()*(600/this.getL().nbCasesHauteur), 600/this.getL().nbCasesLargeur, 600/this.getL().nbCasesHauteur);
+		g.fillOval(this.x*(600/this.getL().nbCasesLargeur), this.y*(600/this.getL().nbCasesHauteur), 600/this.getL().nbCasesLargeur, 600/this.getL().nbCasesHauteur);
 	}
 	
 
@@ -54,8 +54,8 @@ public class Erratique extends Neuneu {
 		int a=(int)Math.random()*(2);
 		int b=(int)Math.random()*(2);
 		
-		int x= this.getC().getAbscisse();
-		int y= this.getC().getOrdonnee();
+		int x= this.x;
+		int y= this.y;
 		
 		Case but = new Case();
 		but= this.getL().plateau[x+a][y+b];

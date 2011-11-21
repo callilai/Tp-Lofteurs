@@ -27,6 +27,7 @@ public class Test {
 				
 			}
 			loft.vieloft-=1;
+
 			
 		}
 

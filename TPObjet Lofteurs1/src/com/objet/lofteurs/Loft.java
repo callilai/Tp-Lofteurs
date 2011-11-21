@@ -81,7 +81,7 @@ public class Loft implements ObjetDessinable{
 		  for (int k=0;k<this.demographieinit;k++){ 
 				int abs = (int)(Math.random()*(this.nbCasesLargeur-1)+1);
 				int ord= (int)(Math.random() *(this.nbCasesHauteur-1)+1);
-				  this.adderratique(this.plateau[abs][ord]);
+				  this.adderratique(abs,ord);
 				  System.out.println("test");
 				
 		}
@@ -96,8 +96,8 @@ public class Loft implements ObjetDessinable{
 	 * CrŽation d'un erratique "standard" placŽ dans une case box d'un loft loftencours.
 	 */
 	
-	public void adderratique(Case box){ 		
-		Erratique e = new Erratique(box, energiemax,this);
+	public void adderratique(int a, int o){ 		
+		Erratique e = new Erratique(a,o, energiemax,this);
 		e.getL().demographie++;
 		System.out.println(this.Neuneus.size());
 		this.Neuneus.add(e);
