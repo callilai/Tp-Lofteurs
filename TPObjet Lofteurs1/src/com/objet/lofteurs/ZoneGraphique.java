@@ -1,5 +1,6 @@
 package com.objet.lofteurs;
 
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.LinkedList;
@@ -59,6 +60,13 @@ public class ZoneGraphique extends JFrame {
 		liste.add(o);
 	}
 	
+	/**
+	 * retrait d'un objet de la zone graphique
+	 */
+	
+	void enleverObjet(ObjetDessinable o){
+		liste.remove(o);
+	}
 	/**
 	 * largeur de la partie dessinable
 	 */
