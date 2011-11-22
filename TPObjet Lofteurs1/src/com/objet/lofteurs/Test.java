@@ -24,7 +24,7 @@ public class Test {
 		while (loft.vieloft != 0){
 			
 			for (int i=0;i<loft.Neuneus.size();i++){
-				loft.Neuneus.get(i).agir();
+				loft.Neuneus.get(i).jouer();
 				
 				Thread.sleep(1000);
 				zone.repaint();

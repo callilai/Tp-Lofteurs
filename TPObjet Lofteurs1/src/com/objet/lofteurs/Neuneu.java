@@ -17,26 +17,26 @@ public abstract class Neuneu implements ObjetDessinable{
 
 	
 
+	public int[] deplacementHasard(){
+		int[] deplacement =new int[2];
+		
 
-	/**Constructeur Neuneu
-	 * @param e
-	 * @param ab
-	 * @param or
-	 * @param lo
-	 * @param vdsr
-	 */
-	/*public Neuneu (int e, int ab, int or, Loft lo) {
-		abscisse =ab;
-		ordonnee=or;
-		energie=e;
-		l = lo;
-		vientDeSeReproduire=lo.tempsReproduction;
+		int a=(int) (Math.random()*(4)-2);
+		int b=(int) (Math.random()*(4)-2);
+		
+		if ((a==0 && b==0) || a==-2 ||b==-2){
+			while ((a==0 && b==0) || a==-2 ||b==-2 ){
+		
+			 a=(int)(Math.random()*(4)-2);
+			 b=(int)(Math.random()*(4)-2);}
+			 }
+		
+		deplacement[0]=a;
+		deplacement[1]=b;
+		return deplacement;
 
-		this.l.zone.ajouterObjet(this);
-	}*/
+	}
 	
-	
-
 	/**
 	 * La fonction sedeplacer change de case un Neuneu et décrémente son énergie. 
 	 * Si le Neuneu à la suite de son déplacement se voit avoir une énergie nulle: 
@@ -77,8 +77,8 @@ public abstract class Neuneu implements ObjetDessinable{
 		
 		else if (this.energie <= this.l.energiemax){
 			this.l.plateau_nourriture[N.abscisse][N.ordonnee]=null;
-			this.l.zone.enleverObjet(this.l.plateau_nourriture[this.abscisse][this.ordonnee]);
-			this.l.zone.repaint();
+			//this.l.zone.enleverObjet(this.l.plateau_nourriture[this.abscisse][this.ordonnee]);
+			//this.l.zone.repaint();
 			
 		}
 		
@@ -97,63 +97,16 @@ public abstract class Neuneu implements ObjetDessinable{
 		this.energie=this.energie - this.l.energiereproduction;
 		n.energie=n.energie-this.l.energiereproduction;
 	
-		this.vientDeSeReproduire+= 5;
-		n.vientDeSeReproduire+= 5;
+		this.vientDeSeReproduire+= 2;
+		n.vientDeSeReproduire+= 2;
 		
-		this.l.adderratique(this.abscisse, this.ordonnee);
+		this.l.ajouterNeuneu(this.abscisse, this.ordonnee, this.type);
 		
 		if (this.energie<this.l.energiemin){ this.mourir();}
 		if (n.energie<this.l.energiemin){n.mourir();}
 		
 	}
 
-	/*public void sereproduire(){
-		// choisir l'Žnergie du bŽbŽ
-
-		if (l.plateau_neuneus[abscisse][ordonnee] > 1 && vientDeSeReproduire > 5) { // alors il y en a au moins 2
-
-		if (type == "lapin") {
-		Lapin nouveau_lapin = new Lapin (energie, abscisse, ordonnee,l, 0);
-		nouveau_lapin.vientDeSeReproduire=0;
-		l.Neuneus.add(nouveau_lapin);
-		l.demographie++;
-		l.plateau_neuneus[abscisse][ordonnee]++;
-		this.vientDeSeReproduire=0;
-		}
-		else if (type == "erratique") {
-		Erratique nouveau_erratique = new Erratique (energie, abscisse, ordonnee,l);
-		nouveau_erratique.vientDeSeReproduire=0;
-		l.Neuneus.add(nouveau_erratique);
-		l.demographie++;
-		l.plateau_neuneus[abscisse][ordonnee]++;
-		this.vientDeSeReproduire=0;
-		}
-		else if (type == "vorace") {
-		Vorace nouveau_vorace = new Vorace (energie, abscisse, ordonnee,l);
-		nouveau_vorace.vientDeSeReproduire=0;
-		l.Neuneus.add(nouveau_vorace);
-		l.demographie++;
-		l.plateau_neuneus[abscisse][ordonnee]++;
-		this.vientDeSeReproduire=0;
-		}
-		else if (type == "cannibale") {
-		Cannibale nouveau_cannibale = new Cannibale (energie, abscisse, ordonnee,l);
-		nouveau_cannibale.vientDeSeReproduire=0;
-		l.Neuneus.add(nouveau_cannibale);
-		l.demographie++;
-		l.plateau_neuneus[abscisse][ordonnee]++;
-		this.vientDeSeReproduire=0;
-		}
-
-		for (Neuneu n : l.Neuneus) {
-		if (n.abscisse == abscisse && n.ordonnee == ordonnee) {
-		n.vientDeSeReproduire=0; // je mets tous ceux qui sont sur la mme case comme venant de se reproduire
-		}
-		}
-		}
-
-
-		}*/
 	/**
 	 * La méthode mourir enlève un Neuneu de la liste de neuneus du loft, l'ajoute dans la liste du cimetière
 	 * et décrémente la population du loft
@@ -163,27 +116,63 @@ public abstract class Neuneu implements ObjetDessinable{
 		this.l.demographie-=1;
 		this.l.Cimetiere.add(this);
 		this.l.Neuneus.remove(this);
-		this.l.zone.enleverObjet(this);
-		this.l.zone.repaint();
-		System.out.println("Un Erratique est mort");
+		//this.l.zone.enleverObjet(this);
+		//this.l.zone.repaint();
+		System.out.println("Un Neuneu est mort");
 		System.out.println("Demographie : "+ this.l.demographie);
 		System.out.println("le cimetière "+this.l.Cimetiere);
 		System.out.println("les neuneus restants "+this.l.Neuneus);
 	}
-	/**
-	 * @param a
-	 * @return
-	 */
-	public int [] chercherdirection (int abs, int ord){
+	
+public void agir(int a, int b){ 
 		
-		int [] vecteur = new int [2];
-		int distancex = abs-this.abscisse;
-		int distancey = ord - this.ordonnee;
+		int x= this.abscisse;
+		int y= this.ordonnee;
 		
-		vecteur[0]= distancex;
-		vecteur[1]= distancey;
+		if ((0<=(x+a) && (x+a)<this.l.nbCasesLargeur)&&( 0<=(y+b) && (y+b)<this.l.nbCasesHauteur)){
+				
+			int but= this.l.plateau[x+a][y+b];
+				switch (but) {
+				case 0 : 
+					this.sedeplacer(a,b);
+					System.out.println("Je me suis déplacé");
+				break;
+				
+				case 1 :
+					
+					int i=0;
+				   // System.out.println(this.l.Neuneus.get(i));		    
+					while ((this.l.Neuneus.get(i).abscisse != this.abscisse+a || this.l.Neuneus.get(i).ordonnee != this.ordonnee+b) && i>=this.l.Neuneus.size() ){
+						i+=1;
+						System.out.println("Il y a quelqu'un dans la case où je veux aller. Qui est-ce ?");
+					}
+					
+					if (i>= this.l.Neuneus.size()){ //cas qui ne doit jamais arriver sinon erreur dans le plateau de neuneus !!
+						this.sedeplacer(a, b);
+					} 
+					
+					this.rencontreNeuneu(l.Neuneus.get(i), a,b);
+			 }
 		
-		return vecteur ;
+		
+		if (this.l.plateau_nourriture[this.abscisse][this.ordonnee]!=null){
+			
+			this.manger(this.l.plateau_nourriture[this.abscisse][this.ordonnee]);
+			System.out.println("J'ai mangé");
+		}
+		
+	}
+	
+
+	}
+	
+	private void rencontreNeuneu(Neuneu neuneu, int a, int b) {
+	// TODO Auto-generated method stub
+	
+}
+
+	public void jouer() {
+		// TODO Auto-generated method stub
 		
 	}
 	

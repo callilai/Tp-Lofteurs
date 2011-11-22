@@ -25,7 +25,7 @@ public class Loft implements ObjetDessinable{
 	public int demographie;
 	public int demographieinit;
 	public ArrayList<Neuneu> Cimetiere; 
-	public ArrayList<Erratique> Neuneus;  
+	public ArrayList<Neuneu> Neuneus;  
 	public ZoneGraphique zone;
 	public int [][] plateau=new int[nbCasesHauteur][nbCasesLargeur]; //nb Neuneus dans chaque case
 	public Nourriture [][] plateau_nourriture=new Nourriture [nbCasesHauteur][nbCasesLargeur];  // contient la nourriture dans les cases
@@ -47,19 +47,19 @@ public class Loft implements ObjetDessinable{
 		this.nbCasesLargeur=nombreCasesX;
 		this.tempsReproduction=0;
 		this.energiemin=0;
-		this.energiemax=10;
+		this.energiemax=100;
 		this.energiereproduction=5;
 		this.energiepas=3;
 		this.vieloft=10;
-		this.quantite=(int)(nombreCasesX*nombreCasesY)/50; //1/4 des cases possèdent de la nourriture
+		this.quantite=(int)(nombreCasesX*nombreCasesY)/10; //1/4 des cases possèdent de la nourriture
 		//this.demographie= //1/8 des cases possèdent des neuneus
 		this.demographie=0;
-		this.demographieinit=(int)(nombreCasesX*nombreCasesY)/50;
+		this.demographieinit=(int)(nombreCasesX*nombreCasesY)/10;
 		this.zone=zone;
 		this.plateau=new int [this.nbCasesLargeur][this.nbCasesHauteur];
 		this.plateau_nourriture=new Nourriture [this.nbCasesLargeur][this.nbCasesHauteur];
 				
-		this.Neuneus=new ArrayList<Erratique>();
+		this.Neuneus=new ArrayList<Neuneu>();
 		this.Cimetiere=new ArrayList<Neuneu>();
 		
 	}
@@ -68,17 +68,11 @@ public class Loft implements ObjetDessinable{
 	 
 	  public void initialiser(){ 
 		  
-		  this.initialiser_erratique(demographieinit);
+		  this.initialiser_erratique(demographieinit/100);
+		  this.initialiser_vorace(demographieinit/100);
+		  this.initialiser_cannibale(demographieinit/100);
+		  this.initialiser_lapin(demographieinit);
 		  this.generernourriture(quantite);
-
-
-		  /*for (int k=0;k<this.demographieinit;k++){ 
-				int abs = (int)(Math.random()*(this.nbCasesLargeur-1)+1);
-				int ord= (int)(Math.random() *(this.nbCasesHauteur-1)+1);
-				  this.adderratique(abs,ord);*/
-				  
-				
-		//}
 			  
 	  }
 
@@ -88,9 +82,9 @@ public class Loft implements ObjetDessinable{
 	  public void ajouterNeuneu(int a, int o, String type){
 		 
 		  if (type=="Erratique") this.adderratique(a,o);
-		  //if (type=="Vorace") this.addvorace(a,o);
-	      //if (type=="Cannibale") this.addcannibale(a,o);
-		  //if (type=="Lapin") this.addlapin (a,o);  
+		  if (type=="Vorace") this.addvorace(a,o);
+	      if (type=="Cannibale") this.addcannibale(a,o);
+		  if (type=="Lapin") this.addlapin (a,o);  
 		 
 	  }
 	  
@@ -103,13 +97,31 @@ public class Loft implements ObjetDessinable{
 	public void adderratique(int a, int o){ 		
 		Erratique e = new Erratique(energiemax,a,o,this);
 		e.l.demographie++;
-		//System.out.println(this.Neuneus.size());
 		this.Neuneus.add(e);
 		this.plateau[a][o]+=1;
-		//System.out.println(this.Neuneus);
-		this.zone.ajouterObjet(e);
+		
 	}
-	
+	public void addvorace(int a, int o){ 		
+		Vorace v = new Vorace(energiemax,a,o,this);
+		v.l.demographie++;
+		this.Neuneus.add(v);
+		this.plateau[a][o]+=1;
+		
+	}
+	public void addcannibale(int a, int o){ 		
+		Cannibale c = new Cannibale (energiemax,a,o,this);
+		c.l.demographie++;
+		this.Neuneus.add(c);
+		this.plateau[a][o]+=1;
+		
+	}
+	public void addlapin(int a, int o){ 		
+		Lapin la = new Lapin (energiemax,a,o,this);
+		la.l.demographie++;
+		this.Neuneus.add(la);
+		this.plateau[a][o]+=1;
+		
+	}
 	public void exclureLoft(){
 		for (int i=0; i<demographie; i++) {
 		if (Neuneus.get(i).energie<energiemin){
@@ -123,9 +135,26 @@ public class Loft implements ObjetDessinable{
 	public void dessinerObjet(Graphics g) {
 		this.drawTable(g);
 		this.drawCadre(g);
+		this.drawNeuneus(g);
+		this.drawNourriture(g);
 		
 	}
 	
+	public void drawNourriture(Graphics g){
+		for (int i=0;i<this.nbCasesHauteur;i++){
+			for (int j=0;j<this.nbCasesLargeur;j++){
+				if (this.plateau_nourriture[j][i]!=null){
+					this.plateau_nourriture[j][i].dessinerObjet(g);
+				}
+			}
+		}
+	}
+	
+	public void drawNeuneus(Graphics g){
+		for (int i=0;i<this.Neuneus.size();i++){
+			this.Neuneus.get(i).dessinerObjet(g);
+		}
+	}
 	public void drawTable(Graphics g){
 		g.setColor(Color.white);
 		for (int i=1; i<600;i++){
@@ -156,7 +185,7 @@ public class Loft implements ObjetDessinable{
 					
 					//System.out.println(n);
 					plateau_nourriture[i][j]=n;
-					this.zone.ajouterObjet(n);
+					//this.zone.ajouterObjet(n);
 
 					
 				}
@@ -177,51 +206,43 @@ public class Loft implements ObjetDessinable{
 			}
 		}
 
-		/*public void initialiser_lapin(int population_lapin){ //nombre *moyen* d'erratiques dans le jeu ˆ l'initialisation
+		public void initialiser_lapin(int population_lapin){ //nombre *moyen* d'erratiques dans le jeu ˆ l'initialisation
 			double moy = ((double) population_lapin)/((double) nbCasesLargeur*nbCasesHauteur);
 			for (int i=0;i<nbCasesLargeur;i++){ //ajout des erratiques dans le jeu
 				for (int j =0; j<nbCasesHauteur; j++) {
 					double rand = Math.random();
 					if (rand < moy) {
-						Lapin la = new Lapin (10,i,j,this);
-						Neuneus.add(la);
-						plateau[i][j] ++;
-						demographie++;
+						this.addlapin(i,j);
 					}
 				}
 			}
-		}*/
+		}
 
-		/*public void initialiser_vorace(int population_vorace){ //nombre *moyen* d'erratiques dans le jeu ˆ l'initialisation
+		public void initialiser_vorace(int population_vorace){ //nombre *moyen* de voraces dans le jeu ˆ l'initialisation
 			double moy = ((double) population_vorace)/((double) nbCasesLargeur*nbCasesHauteur);
-			for (int i=0;i<nbCasesLargeur;i++){ //ajout des erratiques dans le jeu
+			for (int i=0;i<nbCasesLargeur;i++){ //ajout des voraces dans le jeu
 				for (int j =0; j<nbCasesHauteur; j++) {
 					double rand = Math.random();
 					if (rand < moy) {
-						Vorace v = new Vorace (10,i,j,this);
-						Neuneus.add(v);
-						plateau[i][j] ++;
-						demographie++;
+						this.addvorace(i,j);
+						
 					}
 				}
 			}
-		}*/
+		}
 
 
-	/*	public void initialiser_cannibale(int population_cannibale){ //nombre *moyen* d'erratiques dans le jeu ˆ l'initialisation
+		public void initialiser_cannibale(int population_cannibale){ //nombre *moyen* d'erratiques dans le jeu ˆ l'initialisation
 			double moy = ((double) population_cannibale)/((double) nbCasesLargeur*nbCasesHauteur);
 			for (int i=0;i<nbCasesLargeur;i++){ //ajout des erratiques dans le jeu
 				for (int j =0; j<nbCasesHauteur; j++) {
 					double rand = Math.random();
 					if (rand < moy) {
-						Cannibale ca = new Cannibale (10,i,j,this);
-						Neuneus.add(v);
-						plateau[i][j] ++;
-						demographie++;
-					}
+						this.addcannibale(i, j);
+				}
 				}
 			}
-		}*/
+		}
 	
 
 		

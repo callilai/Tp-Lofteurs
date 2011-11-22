@@ -1,6 +1,5 @@
 package com.objet.lofteurs;
-
-
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.LinkedList;
@@ -19,6 +18,8 @@ import javax.swing.JFrame;
  */
 public class ZoneGraphique extends JFrame {
 
+	//public Image image;
+	
 	/**
 	 * la liste d'objets à dessiner
 	 */
@@ -49,7 +50,7 @@ public class ZoneGraphique extends JFrame {
 		// création du panneau
 		LoftPanel a = new LoftPanel(liste);
 		getContentPane().add(a);
-		
+		//this.image=a.getImage();
 		setVisible(true);
 	}
 	
