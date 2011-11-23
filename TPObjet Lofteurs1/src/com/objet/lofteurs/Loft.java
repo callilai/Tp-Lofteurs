@@ -1,4 +1,5 @@
 package com.objet.lofteurs;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -47,11 +48,11 @@ public class Loft implements ObjetDessinable{
 		this.nbCasesLargeur=nombreCasesX;
 		this.tempsReproduction=0;
 		this.energiemin=0;
-		this.energiemax=100;
+		this.energiemax=30;
 		this.energiereproduction=5;
 		this.energiepas=3;
-		this.vieloft=10;
-		this.quantite=(int)(nombreCasesX*nombreCasesY)/10; //1/4 des cases possèdent de la nourriture
+		this.vieloft=20;
+		this.quantite=(int)(nombreCasesX*nombreCasesY)/50; //1/4 des cases possèdent de la nourriture
 		//this.demographie= //1/8 des cases possèdent des neuneus
 		this.demographie=0;
 		this.demographieinit=(int)(nombreCasesX*nombreCasesY)/10;
@@ -68,10 +69,10 @@ public class Loft implements ObjetDessinable{
 	 
 	  public void initialiser(){ 
 		  
-		  this.initialiser_erratique(demographieinit/100);
-		  this.initialiser_vorace(demographieinit/100);
-		  this.initialiser_cannibale(demographieinit/100);
-		  this.initialiser_lapin(demographieinit);
+		  this.initialiser_erratique(demographieinit/4);
+		  this.initialiser_vorace(demographieinit/4);
+		  this.initialiser_cannibale(demographieinit/4);
+		  this.initialiser_lapin(demographieinit/4);
 		  this.generernourriture(quantite);
 			  
 	  }

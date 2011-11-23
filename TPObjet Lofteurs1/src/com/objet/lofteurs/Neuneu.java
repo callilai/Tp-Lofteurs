@@ -1,5 +1,6 @@
 package com.objet.lofteurs;
 
+
 /**
  * @author Charline
  * classe abstraite Neuneu définit les attributs communs à tous les Neuneus ainsi que les méthodes
@@ -147,11 +148,11 @@ public void agir(int a, int b){
 						System.out.println("Il y a quelqu'un dans la case où je veux aller. Qui est-ce ?");
 					}
 					
-					if (i>= this.l.Neuneus.size()){ //cas qui ne doit jamais arriver sinon erreur dans le plateau de neuneus !!
+					if (i> this.l.Neuneus.size()){ //cas qui ne doit jamais arriver sinon erreur dans le plateau de neuneus !!
 						this.sedeplacer(a, b);
 					} 
 					
-					this.rencontreNeuneu(l.Neuneus.get(i), a,b);
+					else{System.out.println("rencontre neuneu");this.rencontreNeuneu(l.Neuneus.get(i), a,b);}
 			 }
 		
 		
@@ -167,7 +168,6 @@ public void agir(int a, int b){
 	}
 	
 	private void rencontreNeuneu(Neuneu neuneu, int a, int b) {
-	// TODO Auto-generated method stub
 	
 }
 
